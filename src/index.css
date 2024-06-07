@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+    .flip-effect {
+        @apply rotate-y-180 scale-110 opacity-100;
+    }
+}
