@@ -4,10 +4,11 @@ import cars from "../data/cars";
 const SET_FILTERS = "SET_FILTERS";
 const RENT_CAR = "RENT_CAR";
 const ADD_CAR = "ADD_CAR";
+const SET_CLIENT = "SET_CLIENT";
 
 const AppContext = createContext();
 
-const getPrice = (car) => car.price * 0.01;
+const getPrice = (car) => car.price * 0.02;
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -16,7 +17,9 @@ const reducer = (state, action) => {
 
       const filteredCars = state.allCars.filter((car) => {
         return (
-          (country ? car.country.includes(country) : true) &&
+          (country
+            ? car.country.toLowerCase().includes(country.toLowerCase())
+            : true) &&
           (city ? car.city.toLowerCase().includes(city.toLowerCase()) : true) &&
           getPrice(car) >= minimumPrice &&
           getPrice(car) <= maximumPrice
@@ -38,6 +41,11 @@ const reducer = (state, action) => {
         ...state,
         allCars: updatedCars,
         filteredCars: updatedCars,
+      };
+    case SET_CLIENT:
+      return {
+        ...state,
+        client: action.payload,
       };
     default:
       return state;

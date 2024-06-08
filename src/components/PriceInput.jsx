@@ -2,7 +2,8 @@ import React from "react";
 
 export default function PriceInput({ set, text }) {
   const handleChange = ({ target }) => {
-    set(parseFloat(target.value));
+    if (target.value !== "") set(parseFloat(target.value));
+    else set(20000);
   };
 
   return (
