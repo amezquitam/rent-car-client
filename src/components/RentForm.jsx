@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import FlipCard from "./FlipCard";
 import CarBack from "./CarBack";
 import CarFront from "./CarFront";
+import { useNavigate } from "react-router-dom";
 
 export default function RentForm() {
   const { state } = useAppContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (state.carToRent === null) {
+      navigate("/");
+    }
+  }, []);
+
+  if (state.carToRent === null) {
+    return <></>;
+  }
 
   const [daysCount, setDaysCount] = useState(1);
 

@@ -13,7 +13,6 @@ export default function CarList() {
   const navigate = useNavigate();
 
   const rentCarHandle = (car) => {
-    console.log("sadfsd");
     rentCar(car);
     navigate("/rent-car");
   };
