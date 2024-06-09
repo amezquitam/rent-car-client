@@ -71,6 +71,10 @@ export const AppProvider = ({ children }) => {
     dispatch({ type: SET_FILTERS, payload: filters });
   };
 
+  const setClient = (client) => {
+    dispatch({ type: SET_CLIENT, payload: client });
+  };
+
   const rentCar = (car) => {
     dispatch({ type: RENT_CAR, payload: car });
   };
@@ -80,7 +84,9 @@ export const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ state, setFilters, rentCar, addCar }}>
+    <AppContext.Provider
+      value={{ state, setFilters, rentCar, addCar, setClient }}
+    >
       {children}
     </AppContext.Provider>
   );

@@ -6,7 +6,7 @@ import CarFront from "./CarFront";
 import { useNavigate } from "react-router-dom";
 
 export default function RentForm() {
-  const { state } = useAppContext();
+  const { state, setClient } = useAppContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,11 +15,11 @@ export default function RentForm() {
     }
   }, []);
 
-  if (state.carToRent === null) {
-    return <></>;
-  }
-
   const [daysCount, setDaysCount] = useState(1);
+
+  useEffect(() => {
+    setClient({ ...state.client, daysCount });
+  }, [daysCount]);
 
   const incrementCounter = () => {
     if (daysCount < 7) setDaysCount(daysCount + 1);
@@ -28,6 +28,30 @@ export default function RentForm() {
   const decrementCounter = () => {
     if (daysCount > 1) setDaysCount(daysCount - 1);
   };
+
+  const onChangeFullName = ({ target }) => {
+    setClient({ ...state.client, fullName: target.value });
+  };
+
+  const onChangeEmail = ({ target }) => {
+    setClient({ ...state.client, email: target.value });
+  };
+
+  const onChangeCity = ({ target }) => {
+    setClient({ ...state.client, city: target.value });
+  };
+
+  const onChangeCountry = ({ target }) => {
+    setClient({ ...state.client, country: target.value });
+  };
+
+  const onChangeAddress = ({ target }) => {
+    setClient({ ...state.client, address: target.value });
+  };
+
+  if (state.carToRent === null) {
+    return <></>;
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6">
@@ -54,6 +78,7 @@ export default function RentForm() {
                     <label htmlFor="full_name">Full Name</label>
                     <input
                       type="text"
+                      onChange={onChangeFullName}
                       className="mt-1 h-10 w-full rounded border bg-gray-50 px-4"
                     />
                   </div>
@@ -62,6 +87,7 @@ export default function RentForm() {
                     <label htmlFor="email">Email Address</label>
                     <input
                       type="text"
+                      onChange={onChangeEmail}
                       className="mt-1 h-10 w-full rounded border bg-gray-50 px-4"
                       placeholder="email@domain.com"
                     />
@@ -71,6 +97,7 @@ export default function RentForm() {
                     <label htmlFor="address">Address / Street</label>
                     <input
                       type="text"
+                      onChange={onChangeAddress}
                       className="mt-1 h-10 w-full rounded border bg-gray-50 px-4"
                     />
                   </div>
@@ -78,6 +105,7 @@ export default function RentForm() {
                   <div className="md:col-span-2">
                     <label htmlFor="city">City</label>
                     <input
+                      onChange={onChangeCity}
                       type="text"
                       className="mt-1 h-10 w-full rounded border bg-gray-50 px-4"
                     />
@@ -87,6 +115,7 @@ export default function RentForm() {
                     <label htmlFor="country">Country / region</label>
                     <div className="mt-1 flex h-10 items-center rounded border border-gray-200 bg-gray-50">
                       <input
+                        onChange={onChangeCountry}
                         placeholder="Country"
                         className="w-full appearance-none bg-transparent px-4 text-gray-800 outline-none"
                       />
@@ -127,49 +156,7 @@ export default function RentForm() {
                     </div>
                   </div>
 
-                  <div className="md:col-span-2">
-                    <label htmlFor="state">State / province</label>
-                    <div className="mt-1 flex h-10 items-center rounded border border-gray-200 bg-gray-50">
-                      <input
-                        placeholder="State"
-                        className="w-full appearance-none bg-transparent px-4 text-gray-800 outline-none"
-                      />
-                      <button
-                        tabIndex="-1"
-                        className="cursor-pointer text-gray-300 outline-none transition-all hover:text-red-600 focus:outline-none"
-                      >
-                        <svg
-                          className="mx-2 h-4 w-4 fill-current"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <line x1="18" y1="6" x2="6" y2="18"></line>
-                          <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                      </button>
-                      <button
-                        tabIndex="-1"
-                        htmlFor="show_more"
-                        className="cursor-pointer border-l border-gray-200 text-gray-300 outline-none transition-all hover:text-blue-600 focus:outline-none"
-                      >
-                        <svg
-                          className="mx-2 h-4 w-4 fill-current"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="18 15 12 9 6 15"></polyline>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
+                  <div className="md:col-span-2"></div>
 
                   <div className="md:col-span-2">
                     <label htmlFor="soda">How many days?</label>
