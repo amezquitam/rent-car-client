@@ -8,7 +8,7 @@ const SET_CLIENT = "SET_CLIENT";
 
 const AppContext = createContext();
 
-const getPrice = (car) => car.price * 0.02;
+const getPrice = (car) => car.price * 0.002;
 
 const reducer = (state, action) => {
   switch (action.type) {
