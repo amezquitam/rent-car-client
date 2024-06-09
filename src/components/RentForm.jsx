@@ -29,24 +29,10 @@ export default function RentForm() {
     if (daysCount > 1) setDaysCount(daysCount - 1);
   };
 
-  const onChangeFullName = ({ target }) => {
-    setClient({ ...state.client, fullName: target.value });
-  };
-
-  const onChangeEmail = ({ target }) => {
-    setClient({ ...state.client, email: target.value });
-  };
-
-  const onChangeCity = ({ target }) => {
-    setClient({ ...state.client, city: target.value });
-  };
-
-  const onChangeCountry = ({ target }) => {
-    setClient({ ...state.client, country: target.value });
-  };
-
-  const onChangeAddress = ({ target }) => {
-    setClient({ ...state.client, address: target.value });
+  const onChange = (property) => {
+    return ({ target }) => {
+      setClient({ ...state.client, [property]: target.value });
+    };
   };
 
   if (state.carToRent === null) {
@@ -78,7 +64,7 @@ export default function RentForm() {
                     <label htmlFor="full_name">Full Name</label>
                     <input
                       type="text"
-                      onChange={onChangeFullName}
+                      onChange={onChange("fullName")}
                       className="mt-1 h-10 w-full rounded border bg-gray-50 px-4"
                     />
                   </div>
@@ -87,7 +73,7 @@ export default function RentForm() {
                     <label htmlFor="email">Email Address</label>
                     <input
                       type="text"
-                      onChange={onChangeEmail}
+                      onChange={onChange("email")}
                       className="mt-1 h-10 w-full rounded border bg-gray-50 px-4"
                       placeholder="email@domain.com"
                     />
@@ -97,7 +83,7 @@ export default function RentForm() {
                     <label htmlFor="address">Address / Street</label>
                     <input
                       type="text"
-                      onChange={onChangeAddress}
+                      onChange={onChange("address")}
                       className="mt-1 h-10 w-full rounded border bg-gray-50 px-4"
                     />
                   </div>
@@ -105,7 +91,7 @@ export default function RentForm() {
                   <div className="md:col-span-2">
                     <label htmlFor="city">City</label>
                     <input
-                      onChange={onChangeCity}
+                      onChange={onChange("city")}
                       type="text"
                       className="mt-1 h-10 w-full rounded border bg-gray-50 px-4"
                     />
@@ -115,7 +101,7 @@ export default function RentForm() {
                     <label htmlFor="country">Country / region</label>
                     <div className="mt-1 flex h-10 items-center rounded border border-gray-200 bg-gray-50">
                       <input
-                        onChange={onChangeCountry}
+                        onChange={onChange("country")}
                         placeholder="Country"
                         className="w-full appearance-none bg-transparent px-4 text-gray-800 outline-none"
                       />
