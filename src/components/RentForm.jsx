@@ -4,6 +4,7 @@ import FlipCard from "./FlipCard";
 import CarBack from "./CarBack";
 import CarFront from "./CarFront";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function RentForm() {
   const { state, setClient } = useAppContext();
@@ -35,6 +36,28 @@ export default function RentForm() {
     };
   };
 
+  const rentCarHandler = (ev) => {
+    ev.preventDefault();
+
+    const pickUpDate = new Date();
+    const returnDate = new Date(
+      pickUpDate.getFullYear(),
+      pickUpDate.getMonth(),
+      pickUpDate.getDate() - 1 + daysCount,
+    );
+
+    const body = {
+      pickUpDate: pickUpDate.toISOString(),
+      returnDate: returnDate.toISOString(),
+      rentedCar: state.carToRent,
+      client: state.client,
+    };
+
+    axios.post("rents", body);
+
+    navigate("/");
+  };
+
   if (state.carToRent === null) {
     return <></>;
   }
@@ -58,7 +81,7 @@ export default function RentForm() {
                 />
               </div>
 
-              <div className="lg:col-span-2">
+              <form className="lg:col-span-2" onSubmit={rentCarHandler}>
                 <div className="grid grid-cols-1 gap-4 gap-y-2 text-sm md:grid-cols-5">
                   <div className="md:col-span-5">
                     <label htmlFor="full_name">Full Name</label>
@@ -80,10 +103,10 @@ export default function RentForm() {
                   </div>
 
                   <div className="md:col-span-3">
-                    <label htmlFor="address">Address / Street</label>
+                    <label htmlFor="address">Phone Number</label>
                     <input
                       type="text"
-                      onChange={onChange("address")}
+                      onChange={onChange("phoneNumber")}
                       className="mt-1 h-10 w-full rounded border bg-gray-50 px-4"
                     />
                   </div>
@@ -150,6 +173,7 @@ export default function RentForm() {
                       <button
                         tabIndex="-1"
                         htmlFor="show_more"
+                        type="button"
                         onClick={decrementCounter}
                         className="cursor-pointer border-r border-gray-200 text-gray-500 outline-none transition-all hover:text-blue-600 focus:outline-none"
                       >
@@ -175,6 +199,7 @@ export default function RentForm() {
                       <button
                         tabIndex="-1"
                         htmlFor="show_more"
+                        type="button"
                         onClick={incrementCounter}
                         className="cursor-pointer border-l border-gray-200 text-gray-500 outline-none transition-all hover:text-blue-600 focus:outline-none"
                       >
@@ -196,13 +221,16 @@ export default function RentForm() {
 
                   <div className="text-right md:col-span-5">
                     <div className="inline-flex items-end">
-                      <button className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+                      <button
+                        className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+                        type="submit"
+                      >
                         Submit
                       </button>
                     </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>

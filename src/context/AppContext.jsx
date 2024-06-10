@@ -1,10 +1,12 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import cars from "../data/cars";
+import axios from "axios";
 
 const SET_FILTERS = "SET_FILTERS";
+const SET_CLIENT = "SET_CLIENT";
+const SET_CARS = "SET_CARS";
 const RENT_CAR = "RENT_CAR";
 const ADD_CAR = "ADD_CAR";
-const SET_CLIENT = "SET_CLIENT";
 
 const AppContext = createContext();
 
@@ -47,6 +49,11 @@ const reducer = (state, action) => {
         ...state,
         client: action.payload,
       };
+    case SET_CARS:
+      return {
+        ...state,
+        allCars: action.payload,
+      };
     default:
       return state;
   }
@@ -54,8 +61,8 @@ const reducer = (state, action) => {
 
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
-    allCars: cars,
-    filteredCars: cars,
+    allCars: [],
+    filteredCars: [],
     filters: {
       country: null,
       city: null,
@@ -67,8 +74,53 @@ export const AppProvider = ({ children }) => {
     carToAdd: null,
   });
 
+  useEffect(() => {
+    axios
+      .get("cars")
+      .then((response) => setCars(response.data))
+      .then(putStaticCars)
+      .catch(console.error);
+  }, []);
+
+  const putStaticCars = async (mappedCars) => {
+    for (const car of cars) {
+      if (
+        mappedCars.filter((savedCar) => car.model === savedCar.model).length ===
+        0
+      ) {
+        await axios.post("cars", {
+          ...car,
+          image: car.icon,
+          pricePerDay: getPrice(car),
+        });
+      }
+    }
+
+    const response = await axios.get("cars");
+
+    setCars(response.data);
+
+    setFilters({
+      country: null,
+      city: null,
+      minimumPrice: 0.0,
+      maximumPrice: 1000.0,
+    });
+  };
+
   const setFilters = (filters) => {
     dispatch({ type: SET_FILTERS, payload: filters });
+  };
+
+  const setCars = async (cars) => {
+    const mappedCars = cars.map((car) => ({
+      ...car,
+      icon: car.image,
+      price: (car.pricePerDay * 1) / 0.002,
+    }));
+
+    dispatch({ type: SET_CARS, payload: mappedCars });
+    return mappedCars;
   };
 
   const setClient = (client) => {

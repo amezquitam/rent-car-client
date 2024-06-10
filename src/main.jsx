@@ -5,6 +5,7 @@ import "./index.css";
 import { AppProvider } from "./context/AppContext.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RentForm from "./components/RentForm.jsx";
+import "./axios.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AppProvider>
