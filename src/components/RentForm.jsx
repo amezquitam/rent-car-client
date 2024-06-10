@@ -69,7 +69,7 @@ export default function RentForm() {
           <div className="mb-6 rounded bg-white p-4 px-4 shadow-lg md:p-8">
             <div className="grid grid-cols-1 gap-4 gap-y-2 text-sm lg:grid-cols-3">
               <div className="text-gray-600">
-                <p className="text-lg font-medium">Personal Details</p>
+                <p className="text-lg font-medium">Personal Info</p>
                 <p>Please fill out all the fields.</p>
 
                 <hr className="my-6" />
