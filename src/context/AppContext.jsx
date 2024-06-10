@@ -84,10 +84,7 @@ export const AppProvider = ({ children }) => {
 
   const putStaticCars = async (mappedCars) => {
     for (const car of cars) {
-      if (
-        mappedCars.filter((savedCar) => car.model === savedCar.model).length ===
-        0
-      ) {
+      if (!mappedCars.some((savedCar) => car.model === savedCar.model)) {
         await axios.post("cars", {
           ...car,
           image: car.icon,
