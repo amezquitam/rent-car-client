@@ -36,7 +36,7 @@ export default function RentForm() {
     };
   };
 
-  const rentCarHandler = (ev) => {
+  const rentCarHandler = async (ev) => {
     ev.preventDefault();
 
     const pickUpDate = new Date();
@@ -53,7 +53,15 @@ export default function RentForm() {
       client: state.client,
     };
 
-    axios.post("rents", body);
+    try {
+      await axios.post("rents", body);
+    } catch (err) {
+      if (err && err.response && err.response.data)
+        alert(err.response.data.description)
+      else
+        alert('No se ha podido guardar, lo sentimos. Inténtalo más tarde')
+      return
+    }
 
     navigate("/");
   };
